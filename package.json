@@ -1,0 +1,33 @@
+{
+  "name": "return-to-top",
+  "version": "1.0.0",
+  "description": "A simple web page return to the top of JS plug-in",
+  "main": "./src/",
+  "scripts": {
+    "clean": "gulp clean",
+    "dev": "gulp jslint && gulp mvfile-dev",
+    "dist": "gulp jsmini && gulp mvfile-dist",
+    "test": "echo This is a test!"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0031/return-to-top.js.git"
+  },
+  "keywords": [
+    "return-to-top"
+  ],
+  "author": "0031",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/0031/return-to-top.js/issues"
+  },
+  "homepage": "https://github.com/0031/return-to-top.js#readme",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "jshint": "^2.9.4"
+  }
+}

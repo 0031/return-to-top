@@ -1,0 +1,23 @@
+{
+  "name": "return-to-top",
+  "description": "A simple web page return to the top of JS plug-in",
+  "main": ["./src/","./example/","./dist/"],
+  "authors": [
+    "0031"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "return-to-top"
+  ],
+  "homepage": "https://github.com/0031/return-to-top#readme",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "animate.css": "^3.5.2"
+  }
+}
