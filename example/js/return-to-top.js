@@ -2,47 +2,37 @@
 ;(function () {
   // 严格模式
   'use strict';
-  var options = {
+  var defaults = {
   	'bg': {
   		'show': true,			// 默认开启按钮背景
-  		'dir': 'images',		// show=true时生效，背景图片文件夹路径，相对于使用该插件的html
+  		'dir': 'images'		// show=true时生效，背景图片文件夹路径，相对于使用该插件的html
   	},
   	'animate': {
   		'show': true,			// 默认开启图标动画，按钮背景show=true时生效，即有动画一定有背景，无背景一定无动画
   		'own': false,			// 如果网页之前已经引入了animate.css，则为true，不会再加载cdn，默认为false
-  		'cdn': 'http://cdn.bootcss.com/animate.css/3.5.2/animate.min.css', // show=true时生效，animate.css静态cdn
+  		'cdn': 'http://cdn.bootcss.com/animate.css/3.5.2/animate.min.css' // show=true时生效，animate.css静态cdn
   	},
     'id': 'return-to-top',  	// 返回顶部元素id
     'scroll': 'window'          // 滚动条基准，默认以浏览器滚动条，当然你可以设置为div的id
   };
   // 接收元素
-  var elem = document.getElementById(options.id);
+  var elem = document.getElementById(defaults.id);
   // 接收滚动条基准，默认则是浏览器滚动条
   var scrollElem = window;
   // 元素最初的class内容
   var initClassName = '';
   // 滚动条计时器
   var timeout = false;
+  // 传入参数
+  var options = {};
 
   // 核心函数，将会暴露给调用者
   var api = {
     // 初始化
     init: function(ops){
-      // 有参数传入
-      if(ops){
-        for(var key in ops){
-          options[key] = ops[key];
-        }
-      }
-      elem = document.getElementById(options.id) || elem;
-      if (!elem) {
-      	console.warn('返回顶部元素id有误,请检查配置!');
-      	return;
-      }
-      if (options.scroll != 'window') {
-      	scrollElem = document.getElementById(options.scroll) || scrollElem;
-      }
-      initClassName = elem.className;
+      // 有参数传入,将对象扩展，类似jQuery中$.extend({},defaults, options);
+      options = extend({},defaults,ops);
+      init();
       // 设置动画
       animate();
       // 为元素创建样式
@@ -58,6 +48,48 @@
 
 
   // 内部函数
+  // 对象复制，由于默认参数中涉及二级参数，则需要深复制
+  function extend() {  
+    var _extend = function me(dest, source) {
+      for (var name in dest) {
+        if (dest.hasOwnProperty(name)) {
+          //当前属性是否为对象,如果为对象，则进行递归
+          if ((dest[name] instanceof Object) && (source[name] instanceof Object)) {
+            me(dest[name], source[name]);
+          }
+          //检测该属性是否存在
+          if (source.hasOwnProperty(name)) {
+            continue;
+          } else {
+            source[name] = dest[name];
+          }
+        }
+      }
+    };
+    var _result = {},
+            arr = arguments;
+    //遍历属性，至后向前
+    if (!arr.length){
+      return {};
+    }
+    for (var i = arr.length - 1; i >= 0; i--) {
+      _extend(arr[i], _result);
+    }
+    arr[0] = _result;
+    return _result;
+  }
+  // 数据初始化
+  function init(){
+    elem = document.getElementById(options.id) || elem;
+    if (!elem) {
+      console.warn('返回顶部元素id有误,请检查配置!');
+      return;
+    }
+    if (options.scroll != 'window') {
+      scrollElem = document.getElementById(options.scroll) || scrollElem;
+    }
+    initClassName = elem.className;
+  }
   /**
    * 让滚动条缓慢移动到顶部
    * callback 回调函数，回到顶部完成后再执行
