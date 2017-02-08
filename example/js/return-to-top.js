@@ -167,7 +167,10 @@
           'left: ',left === 0 ? '' : left,unit,';',
           '-webkit-transition: all 0.2s ease-in-out;',
         '}',
-        '#',options.id,':hover,#',options.id,'.active{',
+        '#',options.id,':hover{',
+          isMobile() ? '' : 'cursor: pointer;',
+        '}',
+        '#',options.id,'.active{',
           'cursor: pointer;',
         '}',
         '#',options.id,'.active{',
@@ -189,7 +192,10 @@
             'height: 62px;',
             'background: url(',options.bg.dir,'/rocket.png) no-repeat 0 0;',
           '}',
-          '#',options.id,':hover,#',options.id,'.active{',
+          '#',options.id,':hover{',
+            isMobile() ? '' : 'background: url(',options.bg.dir,'/rocket.png) no-repeat 0 -62px;',
+          '}',
+          '#',options.id,'.active{',
             'background: url(',options.bg.dir,'/rocket.png) no-repeat 0 -62px;',
           '}'
         ].join('');
@@ -234,27 +240,43 @@
       var elem = namespace.elem;
       var initClassName = namespace.initClassName;
 
+
+      // 移动端需要绑定触摸事件
+      if(isMobile()){
+        elem.addEventListener('touchstart', function (e) {
+          if(!isActive(ns)){
+            elem.className += ' active';
+          }
+        });
+        elem.addEventListener('touchend', function (e) {
+          elem.className = initClassName;
+        });
+      }
       // 绑定点击事件
       elem.addEventListener('click', function (e) {
-        e.stopPropagation();
-        // 开始点击，激活元素
-        if(options.bg.show){
-        	elem.className = initClassName + ' active animated bounceOutUp';
-        }else{
-        	elem.className = initClassName + ' active';
+        if(!isDisabled(ns)){
+          e.stopPropagation();
+          // 将按钮置为不可用
+          elem.className = initClassName + ' rtt-btn-disabled';
+
+          // 开始点击，激活元素
+          if(!isActive(ns)){
+            elem.className += ' active';
+          }
+          if(options.bg.show){
+            elem.className += ' animated bounceOutUp';
+          }
+          setTimeout(function(){
+              reset(ns);
+              setStyle(elem,{
+                display: 'none'
+              });
+          },500);
+          // 回到顶部，然后执行回调函数，重置元素状态
+          scrollToTop(ns,function(){
+            elem.className = namespace.initClassName;
+          });
         }
-        setTimeout(function(){
-            reset(ns);
-            setStyle(elem,{
-              display: 'none'
-            });
-        },500);
-        // 回到顶部，然后执行回调函数，重置元素状态
-        scrollToTop(ns,function(){
-          elem.className = namespace.initClassName;
-        });
-        // 失去焦点，这一点在移动端很重要
-        elem.blur();
       });
     }
   }
@@ -321,6 +343,30 @@
     return true;
   }
 
+  // 判断元素是否活跃状态
+  function isActive(ns){
+    if(hasNamespace(ns)){
+      return hasClass(getNamespace(ns).elem.className,'active');
+    }
+    return false;
+  }
+
+  // 判断按钮是否不可用
+  function isDisabled(ns){
+    if(hasNamespace(ns)){
+      return hasClass(getNamespace(ns).elem.className,'rtt-btn-disabled');
+    }
+    return false;
+  }
+
+  function hasClass(className,key){
+    var pattern = new RegExp('(^|\\s)' + key + '(\\s|$)');
+    if(pattern.test(className)){
+      return true;
+    }
+    return false;
+  }
+
   // 修改元素样式
   function setStyle (elem, styles) {
     var s = elem.style;
@@ -374,6 +420,11 @@
   // 获取命名空间
   function getNamespace(ns){
     return window.returnToTop.namespace[ns];
+  }
+
+  // 判断是手机还是电脑
+  function isMobile(){
+    return navigator.platform != 'Win32' ? true : false;
   }
 
   // 判断是否dom对象
