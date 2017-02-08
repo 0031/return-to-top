@@ -33,15 +33,18 @@ $ bower install https://github.com/0031/return-to-top.git --save
 
 在需要使用返回顶部插件的html文件中加入如下代码：
 ``` html
+<div id="contanier">
+	<a id="return-to-top" href="javascript:;" title="点我起飞"></a>
+</div>
 <script src="/yourpath/return-to-top/dist/return-to-top.min.js"></script>
 <script type="text/javascript">
 	window.returnToTop.init();
 </script>
 ```
-需要将/yourpath替换为您的本地路径。
+需要将/yourpath替换为您的本地路径，即可初始化一个使浏览器返回顶部的小火箭。
 
 更多配置项：  
-在/example/example.html文件中给出了不同需求下的相关示例。
+在/example的静态html文件中给出了不同需求下的相关示例，您可以根据需要修改配置。
 
 ## License
 
