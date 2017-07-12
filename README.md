@@ -33,12 +33,55 @@ $ bower install https://github.com/0031/return-to-top.git --save
 
 在需要使用返回顶部插件的html文件中加入如下代码：
 ``` html
-<div id="contanier">
-	<a id="return-to-top" href="javascript:;" title="点我起飞"></a>
-</div>
+<a id="return-to-top" href="javascript:;" title="点我起飞"></a>
 <script src="/yourpath/return-to-top/dist/return-to-top.min.js"></script>
 <script type="text/javascript">
 	window.returnToTop.init();
+</script>
+```
+
+动态网站，修改背景图片目录：
+``` html
+<a id="return-to-top" href="javascript:;" title="点我起飞"></a>
+<script src="/yourpath/return-to-top/dist/return-to-top.min.js"></script>
+<script type="text/javascript">
+	window.returnToTop.init({
+		'bg': {
+  			'show': true,
+  			'dir': '/yourpath/assets/images'
+  		}
+	});
+</script>
+```
+
+本地已有animate.css：
+``` html
+<link  href="/yourpath/css/animate.css" rel="stylesheet" type="text/css">
+<a id="return-to-top" href="javascript:;" title="点我起飞"></a>
+<script src="/yourpath/return-to-top/dist/return-to-top.min.js"></script>
+<script type="text/javascript">
+	window.returnToTop.init({
+  		'animate': {
+	  		'own': true
+	  	}
+	});
+</script>
+```
+
+需要修改小火箭相对位置：
+``` html
+<link  href="/yourpath/css/animate.css" rel="stylesheet" type="text/css">
+<a id="return-to-top" href="javascript:;" title="点我起飞"></a>
+<script src="/yourpath/return-to-top/dist/return-to-top.min.js"></script>
+<script type="text/javascript">
+	window.returnToTop.init({
+  		'pos': {
+			'top': 0,
+			'right': 50,
+			'bottom': 50,
+			'left': 0
+		}
+	});
 </script>
 ```
 需要将/yourpath替换为您的本地路径，即可初始化一个使浏览器返回顶部的小火箭。
@@ -49,5 +92,8 @@ $ bower install https://github.com/0031/return-to-top.git --save
 ## License
 
 MIT
+
+
+
   [NodeJS]: https://nodejs.org/zh-cn/
   [一款简易的网页返回顶部JS原生插件]: http://0031.github.io/2017/01/03/return-to-top-js-plugin/
