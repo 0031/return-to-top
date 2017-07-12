@@ -84,12 +84,17 @@ $ bower install https://github.com/0031/return-to-top.git --save
 	});
 </script>
 ```
+
 需要将/yourpath替换为您的本地路径，即可初始化一个使浏览器返回顶部的小火箭。
 
 更多配置项：  
 在/example的静态html文件中给出了不同需求下的相关示例，您可以根据需要修改配置。
 
-## License
+## 效果图(Render)
+
+![](https://raw.githubusercontent.com/0031/return-to-top/master/example/images/example.gif)
+
+## 许可(License)
 
 MIT
 
